@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bento Software | Software, die ihr Ziel erreicht.</title>
+    <!-- Neues Favicon für den Browser-Tab -->
+    <link rel="icon" href="bentosoftware-icon.png" type="image/png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --text-main: #1d1d1f;
+        }
+
+        /* iOS Safari Strict Overflow Fix */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            width: 100%;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+        }
+
+        /* --- Premium Custom Scrollbar (Desktop only) --- */
+        @media (min-width: 768px) {
+            ::-webkit-scrollbar { width: 12px; }
+            ::-webkit-scrollbar-track { background: transparent; }
+            ::-webkit-scrollbar-thumb {
+                background-color: #d1d1d6; 
+                border-radius: 20px;
+                border: 3px solid var(--bg-color); 
+            }
+            ::-webkit-scrollbar-thumb:hover { background-color: #97979b; }
+            ::-webkit-scrollbar-button { display: none; }
+        }
+
+        /* Fluid Aurora Background */
+        .aurora-container {
+            position: absolute;
+            top: -10%; left: -10%; 
+            width: 120%; height: 130vh;
+            overflow: hidden;
+            z-index: -2; 
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            filter: blur(100px);
+            opacity: 0.35; 
+            animation: float 20s infinite ease-in-out alternate;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+        }
+
+        .aurora-1 { width: 60vw; height: 60vw; background: #a1c4fd; top: -20vw; left: -10vw; animation-delay: 0s; }
+        .aurora-2 { width: 50vw; height: 50vw; background: #c2e9fb; top: 10vw; right: -10vw; animation-delay: -5s; }
+        .aurora-3 { width: 70vw; height: 70vw; background: #e0c3fc; bottom: -20vw; left: 20vw; animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 10%) scale(1.1); }
+            100% { transform: translate(-5%, -5%) scale(0.95); }
+        }
+
+        /* Floating Glass Bento Cards for Hero */
+        .glass-floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            z-index: -1;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        /* Ultra Glassmorphism Nav */
+        .ultra-glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hero Content Styles */
+        #hero-content {
+            will-change: transform;
+            position: relative;
+        }
+        
+        .text-glow-wrapper { position: relative; display: inline-block; }
+        .text-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, rgba(0,113,227,0.15) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: -1;
+            transform: scale(1.2);
+        }
+
+        /* Shimmer Badge */
+        .shimmer-badge { position: relative; overflow: hidden; }
+        .shimmer-badge::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+            transform: rotate(30deg) translate(-100%, -100%);
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(30deg) translate(-100%, -100%); }
+            20% { transform: rotate(30deg) translate(100%, 100%); }
+            100% { transform: rotate(30deg) translate(100%, 100%); }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+            opacity: 0.6; animation: fadeInOut 2s infinite alternate;
+        }
+        .mouse-pill {
+            width: 24px; height: 36px; border: 2px solid #1d1d1f;
+            border-radius: 12px; position: relative; display: flex; justify-content: center;
+        }
+        .mouse-wheel {
+            width: 4px; height: 8px; background-color: #0071e3;
+            border-radius: 2px; margin-top: 4px; animation: scrollWheel 1.5s infinite;
+        }
+        @keyframes scrollWheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+        @keyframes fadeInOut { 0% { opacity: 0.4; } 100% { opacity: 0.8; } }
+
+        /* Advanced Bento Card with 3D Tilt */
+        .bento-card {
+            position: relative; background: rgba(0, 0, 0, 0.02);
+            border-radius: 32px; padding: 1px; overflow: hidden;
+            transform-style: preserve-3d; transition: transform 0.1s ease, box-shadow 0.3s ease;
+        }
+        .bento-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 0, 0, 0.04), transparent 40%);
+            z-index: 0; opacity: 0; transition: opacity 0.5s;
+        }
+        .bento-card:hover::before { opacity: 1; }
+        .bento-card-inner {
+            background: #ffffff; border-radius: 31px; height: 100%; padding: 2.5rem;
+            position: relative; z-index: 1; display: flex; flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+        .bento-card:hover .bento-card-inner { box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
+
+        /* Icons */
+        .icon-box {
+            width: 72px; height: 72px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); position: relative; flex-shrink: 0;
+        }
+        .icon-box svg { width: 32px; height: 32px; fill: #fff; }
+        .icon-box-large { width: 100px; height: 100px; border-radius: 28px; }
+        .icon-box-large svg { width: 48px; height: 48px; }
+
+        /* Text Gradients */
+        .text-gradient { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .grad-blue { background-image: linear-gradient(135deg, #0071e3 0%, #4facfe 100%); }
+        .grad-green { background-image: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); }
+        .grad-orange { background-image: linear-gradient(135deg, #ff0844 0%, #ffb199 100%); }
+        .grad-purple { background-image: linear-gradient(135deg, #c471f5 0%, #fa71cd 100%); }
+
+        /* Buttons */
+        .store-btn {
+            display: inline-flex; align-items: center; background: #1d1d1f;
+            color: #fff; padding: 10px 18px; border-radius: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .store-btn:hover { background: #000000; transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .store-btn svg { width: 22px; height: 22px; margin-right: 12px; fill: currentColor; }
+        .store-btn-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+        .store-btn-small { font-size: 10px; font-weight: 500; opacity: 0.9; }
+        .store-btn-large { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+        .store-btn-android { background: #333336; }
+        .store-btn-android:hover { background: #111111; }
+
+        .magnetic-btn-wrapper { display: inline-block; padding: 20px; margin: -20px; }
+        .magnetic-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #1d1d1f; color: #ffffff; padding: 16px 32px; border-radius: 99px;
+            font-weight: 700; font-size: 1.125rem; transition: transform 0.2s cubic-bezier(0.1, 0.8, 0.2, 1), box-shadow 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); will-change: transform;
+            cursor: pointer;
+            border: none;
+        }
+        .magnetic-btn:hover { box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+
+        .warning-box {
+            background: #fff5f5; border: 1px solid rgba(255, 59, 48, 0.2);
+            border-left: 4px solid #ff3b30; padding: 1rem 1.25rem; border-radius: 16px;
+            font-size: 0.875rem; line-height: 1.6; color: #990000;
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* Modal Styles */
+        .modal-enter { opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .modal-enter-active { opacity: 1; pointer-events: auto; }
+        .modal-content-scale { transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-enter-active .modal-content-scale { transform: scale(1) translateY(0); }
+        
+        /* 3D Box Styles */
+        .perspective-1200 { perspective: 1200px; }
+        .scroll-box-origin { transform-origin: bottom center; will-change: transform; }
+        
+        /* Premium Form Styles */
+        .premium-input {
+            background-color: #f9f9fb;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 14px;
+            padding: 14px 18px;
+            width: 100%;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            outline: none;
+            color: #1d1d1f;
+        }
+        .premium-input:focus {
+            background-color: #ffffff;
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+        .premium-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 6px;
+        }
+        .required-star {
+            color: #ff3b30;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Wrapper für striktes Mobile-Layout ohne horizontales Wackeln -->
+    <div class="relative w-full overflow-x-hidden" id="main-wrapper">
+        
+        <!-- Hero Background Area -->
+        <div class="aurora-container" id="aurora-bg">
+            <div class="aurora-blob aurora-1"></div>
+            <div class="aurora-blob aurora-2"></div>
+            <div class="aurora-blob aurora-3"></div>
+        </div>
+        
+        <!-- Floating Glass Bento Cards -->
+        <div id="floating-cards-container" class="hidden md:block">
+            <div class="glass-floating-card w-40 h-40 left-[10%] top-[20%] rounded-3xl" data-speed="0.15" data-rotation="-10"></div>
+            <div class="glass-floating-card w-56 h-64 right-[8%] top-[35%] rounded-[32px]" data-speed="-0.1" data-rotation="8"></div>
+            <div class="glass-floating-card w-32 h-32 left-[18%] bottom-[15%] rounded-2xl" data-speed="0.2" data-rotation="15"></div>
+        </div>
+
+        <!-- Ultra Glass Navigation -->
+        <nav class="fixed top-0 w-full z-50 ultra-glass">
+            <div class="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between py-4 perspective-1000">
+                <!-- BENTO (dick) SOFTWARE (dünn) MIT ICON -->
+                <div id="brand-logo" class="text-xl flex items-center gap-3 text-gray-900 drop-shadow-sm will-change-transform origin-left">
+                    <div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-md bg-white border border-gray-100">
+                        <img src="bentosoftware-icon.png" alt="Bento Software" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                        <div class="hidden w-full h-full bg-gradient-to-br from-gray-800 to-black"><div class="w-4 h-4 bg-white rounded-sm m-auto mt-2"></div></div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-black tracking-tighter">BENTO</span>
+                        <span class="font-light tracking-widest ml-1">SOFTWARE</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-gray-600">
+                    <a href="#dienstleistungen" class="hover:text-black transition-colors">Dienstleistungen</a>
+                    <a href="#produkte" class="hover:text-black transition-colors">Produkte</a>
+                    <!-- Link zu Modal geändert -->
+                    <button type="button" onclick="openCareerModal()" class="hover:text-black transition-colors cursor-pointer">Karriere</button>
+                    <!-- Button öffnet Modal statt Scrollen -->
+                    <button type="button" onclick="openContactModal()" class="hover:text-black transition-colors cursor-pointer">Kontakt</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero / Dienstleistungen -->
+        <section id="dienstleistungen" class="relative pt-32 pb-16 px-6 flex flex-col items-center justify-center min-h-[90vh] z-10">
+            <div class="max-w-5xl mx-auto text-center relative w-full z-10" id="hero-content">
+                
+                <div class="text-glow-wrapper reveal">
+                    <div class="text-glow"></div>
+                    <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200/60 bg-white/70 backdrop-blur-md mb-6 shadow-sm shimmer-badge">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        <span class="text-[11px] font-bold uppercase tracking-widest text-gray-700">IT & Engineering Excellence</span>
+                    </div>
+                    <h1 class="text-[4rem] md:text-[6.5rem] font-black tracking-tighter mb-4 leading-[1.02] text-gray-900 drop-shadow-sm">
+                        Software, die ihr <br><span class="text-gradient grad-blue pb-2 inline-block">Ziel erreicht.</span>
+                    </h1>
+                </div>
+                
+                <div class="reveal">
+                    <p class="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed mb-10 max-w-2xl mx-auto drop-shadow-sm">
+                        Wir helfen Ihnen, Ihr Projekt zu verwirklichen. Wenn Sie Beratung oder Unterstützung für Ihre neue iOS oder Android App oder Java/.NET Anwendung benötigen, stehen wir Ihnen mit Rat und Tat zur Seite.
+                    </p>
+                    
+                    <div class="magnetic-btn-wrapper">
+                        <!-- Button öffnet Modal statt Scrollen -->
+                        <button type="button" onclick="openContactModal()" class="magnetic-btn group shadow-2xl shadow-blue-500/20">
+                            Projekt starten
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D INTERACTIVE SCROLL BOX (VIDEO) -->
+            <div class="w-full perspective-1200 relative z-20 mt-12 mb-8 flex justify-center">
+                <div id="scroll-box" class="scroll-box-origin w-full max-w-[464px] aspect-[464/688] rounded-[2rem] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/60 bg-white/40 backdrop-blur-md relative">
+                    <!-- ACHTUNG: loop wurde entfernt, Video spielt nur 1x ab! -->
+                    <video src="iconvideo.mp4" autoplay muted playsinline class="w-full h-full object-cover"></video>
+                    
+                    <div id="box-reflection" class="absolute inset-0 bg-gradient-to-b from-white/80 via-white/20 to-transparent z-20 pointer-events-none transition-opacity duration-300"></div>
+                    
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100/50 -z-10">
+                        <div class="w-16 h-16 bg-white/80 backdrop-blur rounded-full flex items-center justify-center shadow-lg mb-4">
+                            <svg class="w-8 h-8 text-blue-600 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z"></path></svg>
+                        </div>
+                        <span class="text-gray-600 font-mono text-xs opacity-70 bg-white/50 px-3 py-1 rounded-full backdrop-blur-md">iconvideo.mp4</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Produkte Bento Grid -->
+        <section id="produkte" class="max-w-7xl mx-auto px-6 py-24 relative z-30 bg-[#f5f5f7] rounded-t-[3rem] shadow-[0_-20px_40px_rgba(0,0,0,0.02)]">
+            <div class="mb-20 text-center reveal">
+                <h2 class="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-gray-900">Unsere Produkte</h2>
+                <p class="text-xl text-gray-600 font-medium">Entwickelt für den Alltag. Maßgeschneidert für iOS & Android.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                
+                <!-- 1. GARTENPLANER (HAUPTPRODUKT) -->
+                <article class="bento-card tile md:col-span-12 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="flex flex-col md:flex-row gap-12 items-center md:items-start">
+                            <div class="flex-1">
+                                <span class="text-gradient grad-green text-sm font-bold uppercase tracking-widest mb-4 block">Unser Hauptprodukt</span>
+                                <h3 class="text-4xl md:text-5xl font-black mb-6 tracking-tighter text-gray-900">Gartenplaner für's Gemüsebeet</h3>
+                                <p class="text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl">
+                                    Unser Gartenplaner hilft Ihnen, schnell und übersichtlich Ihre gewünschten Gemüsesorten passend auszuwählen.
+                                </p>
+                                
+                                <div class="grid sm:grid-cols-2 gap-4 mb-10">
+                                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <span class="block text-green-600 font-bold mb-1">✓ Mischkultur-Infos</span>
+                                        <span class="text-sm text-gray-600">Gute und schlechte Nachbarn für jede Sorte.</span>
+                                    </div>
+                                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <span class="block text-green-600 font-bold mb-1">✓ Aussaatkalender</span>
+                                        <span class="text-sm text-gray-600">Übersicht, wann ausgesät und geerntet wird.</span>
+                                    </div>
+                                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100 sm:col-span-2">
+                                        <span class="block text-green-600 font-bold mb-1">✓ Virtueller Beetplan</span>
+                                        <span class="text-sm text-gray-600">Als Bonusfunktion können Sie Ihr Beet virtuell anlegen, inkl. Pflanzabständen.</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="https://apps.apple.com/de/app/gartenplaner-f%C3%BCrs-gem%C3%BCsebeet/id1329927332" target="_blank" rel="noopener noreferrer" class="store-btn">
+                                        <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg>
+                                        <div class="store-btn-text"><span class="store-btn-small">Laden im</span><span class="store-btn-large">App Store</span></div>
+                                    </a>
+                                    <a href="https://play.google.com/store/apps/details?id=com.bentosoftware.gartenplaner&referrer=utm_source%3Dwebsite%26utm_campaign%3Dwebsite" target="_blank" rel="noopener noreferrer" class="store-btn store-btn-android">
+                                        <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
+                                        <div class="store-btn-text"><span class="store-btn-small">Android App bei</span><span class="store-btn-large">Google Play</span></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="hidden md:flex flex-col items-center justify-center">
+                                <div class="icon-box icon-box-large bg-black overflow-hidden border border-gray-800 p-0 shadow-2xl relative">
+                                    <img src="Gartenplaner.jpg" alt="Gartenplaner App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-0 p-2 text-center">
+                                        <span class="text-3xl mb-1">🥕</span>
+                                        <span class="text-[8px] opacity-60 uppercase font-mono">Gartenplaner.jpg</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2. HEILKRÄUTER INFO -->
+                <article class="bento-card tile md:col-span-12 lg:col-span-7 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="flex items-center gap-5 mb-8">
+                            <div class="icon-box bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative">
+                                <img src="Heilkräuter.jpg" alt="Heilkräuter App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
+                                    <span class="text-xl mb-1">🌿</span>
+                                    <span class="text-[6px] opacity-50 uppercase font-mono break-all">Heilkräuter.jpg</span>
+                                </div>
+                            </div>
+                            <h3 class="text-3xl font-bold tracking-tight text-gray-900">Heilkräuter Info</h3>
+                        </div>
+                        
+                        <div class="space-y-4 text-gray-600 text-[15px] leading-relaxed mb-6 flex-1">
+                            <p>Verschaffen Sie sich schnell einen Überblick über die Schätze der Natur, und finden Sie Heilkräuter, die genau zu Ihren Bedürfnissen passen.</p>
+                            <p>Wir bereinigen die Informationen bewusst von Mystik und gesundheitsgefährdenden Praktiken. Gefährliche Heilkräuter haben wir nicht mit aufgeführt.</p>
+                            <div class="warning-box mt-4">
+                                <strong>Wichtig:</strong> Die Verwendung aller Heilkräuter erfolgt in eigener Verantwortung. Im Zweifel fragen Sie bitte Ihren Arzt um Rat.
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 mt-auto">
+                            <a href="https://itunes.apple.com/de/app/heilkraut-info/id1612833059?pt=2221469&ct=weblink&mt=8" target="_blank" rel="noopener noreferrer" class="store-btn flex-1 justify-center"><svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg></a>
+                            <a href="https://play.google.com/store/apps/details?id=com.bentosoftware.heilkraut&referrer=utm_source%3Dwebsite%26utm_campaign%3Dwebsite" target="_blank" rel="noopener noreferrer" class="store-btn store-btn-android flex-1 justify-center"><svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 3. GYMMIX -->
+                <article class="bento-card tile md:col-span-12 lg:col-span-5 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="flex items-center gap-5 mb-6">
+                            <div class="icon-box bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative">
+                                <img src="gymmix.png" alt="Gymmix App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
+                                    <span class="text-xl mb-1">💪</span>
+                                    <span class="text-[6px] opacity-50 uppercase font-mono">gymmix.png</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-orange-600 text-[10px] font-bold px-2 py-0.5 border border-orange-200 rounded-full uppercase tracking-wider bg-orange-50">Neu</span>
+                                <h3 class="text-3xl font-bold mt-1 tracking-tight text-gray-900">Gymmix</h3>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 text-[15px] leading-relaxed mb-8 flex-1">
+                            Dein Muscle Training Plan & Workout Tracker. Dokumentiere Sätze, Gewichte und deinen Fortschritt direkt im Gym. Maximale Effizienz für dein Training.
+                        </p>
+                        
+                        <a href="https://apps.apple.com/de/app/gymmix-trainingsplan-tracker/id6746069110" target="_blank" rel="noopener noreferrer" class="store-btn w-full justify-center">
+                            <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg>
+                            <div class="store-btn-text"><span class="store-btn-small">Laden im</span><span class="store-btn-large">App Store</span></div>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 4. KREDITRECHNER -->
+                <article class="bento-card tile md:col-span-12 lg:col-span-6 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="icon-box bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative mb-8">
+                            <img src="Tilgungsrechner.jpg" alt="Tilgungsrechner App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
+                                <span class="text-xl mb-1">📊</span>
+                                <span class="text-[5px] opacity-50 uppercase font-mono break-all leading-tight">Tilgungsrechner.jpg</span>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4 tracking-tight text-gray-900">Kredit- & Tilgungsrechner</h3>
+                        <p class="text-gray-600 text-[15px] mb-6 leading-relaxed">Sie wollen eine Immobilie kaufen und brauchen einen Kredit? Verschaffen Sie sich schnell und bequem eine einfache Übersicht.</p>
+                        
+                        <div class="bg-blue-50/50 rounded-2xl p-5 border border-blue-100 mb-6 flex-1">
+                            <p class="font-bold text-blue-900 text-[15px] mb-2 flex items-center">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500 mr-3"></span> Sondertilgungen!
+                            </p>
+                            <p class="text-sm text-gray-700 mb-4">Prüfen Sie mit nur einem Fingertippen, wie sich der Kredit entwickelt.</p>
+                            <ul class="text-sm text-gray-700 space-y-2 list-disc pl-5">
+                                <li>Wie lange würde die Rückzahlung dauern?</li>
+                                <li>Wie viele Zinsen würden anfallen?</li>
+                                <li>Wie hoch ist die Restschuld?</li>
+                            </ul>
+                        </div>
+                        
+                        <p class="text-gradient grad-blue font-semibold text-xs mb-6">Und bald kommen dazu: Detaillierte Eingabemöglichkeiten zu den Kaufnebenkosten und vieles mehr...</p>
+
+                        <a href="https://apps.apple.com/de/app/kreditrechner-tilgung/id1061110361" target="_blank" rel="noopener noreferrer" class="store-btn w-full justify-center">
+                            <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg>
+                            <div class="store-btn-text"><span class="store-btn-small">Laden im</span><span class="store-btn-large">App Store</span></div>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 5. REZEPTE FINDER -->
+                <article class="bento-card tile md:col-span-12 lg:col-span-6 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="icon-box bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative mb-8">
+                            <img src="Rezept.jpg" alt="Rezepte-Finder App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
+                                <span class="text-xl mb-1">🍳</span>
+                                <span class="text-[5px] opacity-50 uppercase font-mono break-all leading-tight">Rezept.jpg</span>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-3 tracking-tight text-gray-900">Rezepte-Finder</h3>
+                        <p class="font-bold text-gray-800 text-[15px] mb-4">Sie sagen, was Sie im Haus haben - und bekommen passende Rezepte.</p>
+                        <p class="text-gray-600 text-[15px] leading-relaxed mb-8 flex-1">
+                            Sie haben noch Blätterteig im Kühlschrank und eine Dose Ananas im Regal? Suchen Sie in tausenden von Rezepten nach Ihren Zutaten und entdecken Sie neue Leckereien, auf die man nicht von alleine kommt.
+                        </p>
+                        
+                        <div class="flex gap-3">
+                            <a href="https://apps.apple.com/de/app/recipe-finder/id1542024196" target="_blank" rel="noopener noreferrer" class="store-btn flex-1 justify-center"><svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg></a>
+                            <a href="https://play.google.com/store/apps/details?id=com.bentosoftware.recipefinder&referrer=utm_source%3Dwebsite%26utm_campaign%3Dwebsite" target="_blank" rel="noopener noreferrer" class="store-btn store-btn-android flex-1 justify-center"><svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 6. CARDDISPLAY (NEU) -->
+                <article class="bento-card tile md:col-span-12 reveal" data-tilt>
+                    <div class="bento-card-inner">
+                        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                            <div class="icon-box icon-box-large bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative">
+                                <img src="carddisplay.jpg" alt="Carddisplay App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-2 text-center">
+                                    <span class="text-3xl mb-1">💳</span>
+                                    <span class="text-[8px] opacity-50 uppercase font-mono break-all leading-tight">carddisplay.jpg</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-center md:text-left">
+                                <span class="text-purple-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block border border-purple-200 bg-purple-50">Neu im Store</span>
+                                <h3 class="text-3xl md:text-4xl font-black mb-4 tracking-tight text-gray-900">Carddisplay</h3>
+                                <p class="text-gray-600 text-lg max-w-2xl leading-relaxed">
+                                    Die smarte Art, Ihre digitalen Karten zu organisieren und zu präsentieren. Minimalistisches Design für maximalen Fokus – immer griffbereit auf Ihrem Gerät.
+                                </p>
+                            </div>
+                            <div>
+                                <a href="https://apps.apple.com/de/app/carddisplay-visitenkarten-app/id6756011983" target="_blank" rel="noopener noreferrer" class="store-btn px-6 py-4">
+                                    <svg viewBox="0 0 384 512" class="w-6 h-6"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM34.4 0C59.4.5 86.6 15 103.8 32.7c15 15.5 29.8 40.5 25.4 64.9-28.2 1.2-56.5-13.8-74.3-33C37.5 48.2 22.3 22 26.6-1.5z"/></svg>
+                                    <div class="store-btn-text"><span class="store-btn-small">Laden im</span><span class="store-btn-large text-base">App Store</span></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Webdesign Services Box -->
+        <section class="max-w-7xl mx-auto px-6 py-12 relative z-30 reveal pb-20">
+            <div class="p-10 md:p-14 rounded-[32px] bg-white border border-gray-100 shadow-xl relative overflow-hidden text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="absolute right-0 top-0 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl"></div>
+                <div class="relative z-10 flex-1">
+                    <h2 class="text-3xl font-bold mb-4 tracking-tight text-gray-900">Webauftritt & Design</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed max-w-3xl">
+                        Wir helfen Ihnen, Ihren Webauftritt professionell und attraktiv zu gestalten. Wenn Sie eine ansprechende Webseite benötigen oder ihre bisherige umgestalten wollen, sprechen Sie uns einfach an.
+                    </p>
+                </div>
+                <div class="relative z-10 shrink-0">
+                    <!-- Button öffnet Modal statt Link -->
+                    <button type="button" onclick="openContactModal()" class="magnetic-btn !px-8 !py-4 group">
+                        <span class="font-bold">Kontakt aufnehmen</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" class="bg-[#f5f5f7] py-16 px-6 border-t border-gray-200 relative z-30">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                <div class="text-center md:text-left">
+                    <div class="text-xl uppercase text-gray-900 mb-2 flex items-center justify-center md:justify-start">
+                        <!-- Icon im Footer -->
+                        <div class="w-5 h-5 rounded-md overflow-hidden flex items-center justify-center mr-2 bg-white border border-gray-100">
+                            <img src="bentosoftware-icon.png" alt="Bento Software Logo" class="w-full h-full object-cover" onerror="this.style.display='none';" />
+                        </div>
+                        <span class="font-black tracking-tighter">BENTO</span>
+                        <span class="font-light tracking-widest ml-1">SOFTWARE</span>
+                    </div>
+                    <p class="text-gray-500 text-sm font-medium">Software, die ihr Ziel erreicht.</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4">
+                    <a href="#dienstleistungen" class="text-sm font-semibold text-gray-600 hover:text-black transition-colors">Dienstleistungen</a>
+                    <a href="#produkte" class="text-sm font-semibold text-gray-600 hover:text-black transition-colors">Produkte</a>
+                    <!-- Link zu Modal geändert -->
+                    <button type="button" onclick="openCareerModal()" class="text-sm font-semibold text-gray-600 hover:text-black transition-colors cursor-pointer">Karriere</button>
+                    <!-- Button öffnet Modal -->
+                    <button type="button" onclick="openContactModal()" class="text-sm font-semibold text-gray-600 hover:text-black transition-colors cursor-pointer">Kontakt & Impressum</button>
+                    <button type="button" onclick="openPrivacyModal()" class="text-sm font-semibold text-gray-600 hover:text-black transition-colors cursor-pointer">Datenschutzerklärung</button>
+                </div>
+            </div>
+            
+            <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-200 text-center md:text-left text-gray-500 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
+                <span>© 2026 Bento Software UG (haftungsbeschränkt). Alle Rechte vorbehalten.</span>
+            </div>
+        </footer>
+
+        <!-- --- DATENSCHUTZ MODAL --- -->
+        <div id="privacy-modal" class="fixed inset-0 z-[100] modal-enter flex items-center justify-center px-4 sm:px-6">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closePrivacyModal()"></div>
+            
+            <div class="modal-content-scale relative w-full max-w-3xl max-h-[85vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+                <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Datenschutzerklärung</h2>
+                    <button onclick="closePrivacyModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div class="p-8 overflow-y-auto custom-scrollbar text-gray-600 space-y-6 leading-relaxed">
+                    <p>Sie erhalten als Nutzer unserer Internetseite in dieser Datenschutzerklärung alle notwendigen Informationen darüber, wie, in welchem Umfang sowie zu welchem Zweck wir oder Drittanbieter Daten von Ihnen erheben und diese verwenden. Die Erhebung und Nutzung Ihrer Daten erfolgt streng nach den Vorgaben des Bundesdatenschutzgesetzes (BDSG) und des Telemediengesetzes (TMG). Wir fühlen uns der Vertraulichkeit Ihrer personenbezogenen Daten besonders verpflichtet und arbeiten deshalb streng innerhalb der Grenzen, die die gesetzlichen Vorgaben uns setzen. Die Erhebung dieser personenbezogenen Daten erfolgt auf freiwilliger Basis, wenn uns das möglich ist. Auch geben wir diese Daten nur mit Ihrer ausdrücklichen Zustimmung an Dritte weiter. Wir sorgen bei besonders vertraulichen Daten wie im Zahlungsverkehr oder im Hinblick auf Ihre Anfragen an uns durch Einsatz einer SSL-Verschlüsselung für hohe Sicherheit. Wir möchten es aber an dieser Stelle nicht versäumen, auf die allgemeinen Gefahren der Internetnutzung hinzuweisen, auf die wir keinen Einfluss haben. Besonders im E-Mail-Verkehr sind Ihre Daten ohne weitere Vorkehrungen nicht sicher und können unter Umständen von Dritten erfasst werden.</p>
+                    
+                    <h3 class="text-lg font-bold text-gray-900 mt-8">Auskunft, Löschung, Sperrung</h3>
+                    <p>Sie erhalten jederzeit unentgeltlich Auskunft über die von uns gespeicherten personenbezogenen Daten zu Ihrer Person sowie zur Herkunft, dem Empfänger und dem Zweck von Datenerhebung sowie Datenverarbeitung. Außerdem haben Sie das Recht, die Berichtigung, die Sperrung oder Löschung Ihrer Daten zu verlangen. Ausgenommen davon sind Daten, die aufgrund gesetzlicher Vorschriften aufbewahrt oder zur ordnungsgemäßen Geschäftsabwicklung benötigt werden. Damit eine Datensperre jederzeit realisiert werden kann, werden Daten zu Kontrollzwecken in einer Sperrdatei vorgehalten. Werden Daten nicht von einer gesetzlichen Archivierungspflicht erfasst, löschen wir Ihre Daten auf Ihren Wunsch. Greift die Archivierungspflicht, sperren wir Ihre Daten. Für alle Fragen und Anliegen zur Berichtigung, Sperrung oder Löschung von personenbezogenen Daten wenden Sie sich bitte an die im Impressum genannte Adresse.</p>
+
+                    <h3 class="text-lg font-bold text-gray-900 mt-8">Erhebung von Zugriffsdaten</h3>
+                    <p>Die Auslieferung und Darstellung der Inhalte über unsere Webseite erfordert technisch die Erfassung bestimmter Daten. Mit Ihrem Zugriff auf unsere Webseite werden diese sogenannten Server-Logfiles durch uns oder den Provider des Webspace erfasst. Diese Logfiles erlauben keinen Rückschluss auf Sie und Ihre Person.</p>
+                    <p>Die entsprechenden Informationen bestehen aus dem Namen der Webseite, der Datei, dem aktuellen Datum, der Datenmenge, dem Webbrowser und seiner Version, dem eingesetzten Betriebssystem, dem Domain-Namen Ihres Internet-Providers, der Referrer-URL als jene Seite, von der Sie auf unsere Seite gewechselt sind, sowie der entsprechenden IP-Adresse.</p>
+                    <p>Wir nutzen diese Daten zur Darstellung und Auslieferung unserer Inhalte sowie zu statistischen Zwecken. Die Informationen unterstützen die Bereitstellung und ständige Verbesserung unseres Angebots. Auch behalten wir uns vor, die erwähnten Daten nachträglich zu prüfen, sollte der Verdacht auf eine rechtswidrige Nutzung unseres Angebotes bestehen.</p>
+
+                    <h3 class="text-lg font-bold text-gray-900 mt-8">Server-Logfiles</h3>
+                    <p>Bei den Server-Logfiles handelt es sich um anonymisierte Daten, die bei Ihrem Zugriff auf unsere Webseite erfasst werden. Diese Informationen ermöglichen keine Rückschlüsse auf Sie persönlich, sind aber aus technischen Gründen für die Auslieferung und Darstellung unserer Inhalte unverzichtbar. Weiterhin dienen Sie unserer Statistik und der ständigen Optimierung unserer Inhalte. Typische Logfiles sind das Datum und die Zeit des Zugriffs, die Datenmenge, der für den Zugriff benutzte Browser und seine Version, das eingesetzte Betriebssystem, der Domainname des von Ihnen beauftragten Providers, die Seite, von der Sie zu unserem Angebot gekommen sind (Referrer-URL) und Ihre IP-Adresse. Logfiles ermöglichen außerdem eine genaue Prüfung bei Verdacht auf eine rechtswidrige Nutzung unserer Webseite.</p>
+
+                    <h3 class="text-lg font-bold text-gray-900 mt-8">SSL-Verschlüsselung</h3>
+                    <p>Unsere Webseite bedient sich einer SSL-Verschlüsselung, wenn es um die Übermittlung vertraulicher oder persönlicher Inhalte unserer Nutzer geht. Diese Verschlüsselung wird zum Beispiel bei der Abwicklung des Zahlungsverkehrs sowie bei Anfragen aktiviert, die Sie an uns über unsere Webseite stellen. Achten Sie bitte darauf, dass die SSL-Verschlüsselung bei entsprechenden Aktivitäten von Ihrer Seite her aktiviert ist. Der Einsatz der Verschlüsselung ist leicht zu erkennen: Die Anzeige in Ihrer Browserzeile wechselt von „http://“ zu „https://“. Über SSL verschlüsselte Daten sind nicht von Dritten lesbar. Übermitteln Sie Ihre vertraulichen Informationen nur bei aktivierter SSL-Verschlüsselung und wenden Sie sich im Zweifel an uns.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- KONTAKT MODAL --- -->
+        <div id="contact-modal" class="fixed inset-0 z-[100] modal-enter flex items-center justify-center px-4 sm:px-6">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeContactModal()"></div>
+            
+            <div class="modal-content-scale relative w-full max-w-5xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+                <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Kontakt & Impressum</h2>
+                    <button onclick="closeContactModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div class="p-8 overflow-y-auto custom-scrollbar">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                        
+                        <!-- Linke Seite: Das Premium Formular -->
+                        <div class="lg:col-span-7">
+                            <h3 class="text-xl font-bold text-gray-900 mb-6">Ihre Nachricht an uns</h3>
+                            
+                            <form action="#" method="POST" class="space-y-5">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="premium-label" for="modal-name">Ihr Name <span class="required-star">*</span></label>
+                                        <input type="text" id="modal-name" name="name" required class="premium-input" placeholder="Max Mustermann">
+                                    </div>
+                                    <div>
+                                        <label class="premium-label" for="modal-email">Ihre Email-Adresse <span class="required-star">*</span></label>
+                                        <input type="email" id="modal-email" name="email" required class="premium-input" placeholder="mail@beispiel.de">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="premium-label" for="modal-bereich">Bereich <span class="required-star">*</span></label>
+                                    <div class="relative">
+                                        <select id="modal-bereich" name="bereich" required class="premium-input appearance-none cursor-pointer pr-10">
+                                            <option value="" disabled selected>-- Bitte wählen --</option>
+                                            <option value="gartenplaner-ios">Gartenplaner - iOS</option>
+                                            <option value="gartenplaner-android">Gartenplaner - Android</option>
+                                            <option value="heilkraeuter-ios">Heilkräuter Info - iOS</option>
+                                            <option value="heilkraeuter-android">Heilkräuter Info - Android</option>
+                                            <option value="rezepte-ios">Rezepte-Finder - iOS</option>
+                                            <option value="rezepte-android">Rezepte-Finder - Android</option>
+                                            <option value="kreditrechner-ios">Kreditrechner - iOS</option>
+                                            <option value="kreditrechner-android">Kreditrechner - Android</option>
+                                            <option value="dienstleistungen">Dienstleistungen</option>
+                                            <option value="sonstiges">Sonstiges</option>
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="premium-label" for="modal-message">Ihre Nachricht <span class="required-star">*</span></label>
+                                    <textarea id="modal-message" name="message" required rows="4" class="premium-input resize-none" placeholder="Wie können wir Ihnen helfen?"></textarea>
+                                </div>
+
+                                <div class="pt-2 pb-4">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <div class="relative flex items-center mt-0.5">
+                                            <input type="checkbox" required class="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all cursor-pointer">
+                                            <svg class="absolute inset-0 w-5 h-5 pointer-events-none stroke-white scale-0 peer-checked:scale-100 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        </div>
+                                        <div class="text-sm text-gray-600 leading-relaxed">
+                                            <span class="font-bold text-gray-900 block mb-1">Einwilligungserklärung Datenschutz <span class="required-star">*</span></span>
+                                            Ich habe die <button type="button" onclick="closeContactModal(); setTimeout(openPrivacyModal, 300);" class="text-blue-600 hover:text-blue-800 underline font-medium">Datenschutzerklärung</button> zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden.
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="flex items-center justify-between border-t border-gray-100 pt-6">
+                                    <span class="text-xs text-gray-400 flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                        Verschlüsselt
+                                    </span>
+                                    <button type="submit" class="magnetic-btn !py-3 !px-6 text-sm" onmousemove="const rect=this.getBoundingClientRect(); this.style.transform=`translate(${(event.clientX-rect.left-rect.width/2)*0.4}px, ${(event.clientY-rect.top-rect.height/2)*0.6}px)`" onmouseout="this.style.transform=`translate(0px,0px)`">
+                                        Nachricht senden
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Rechte Seite: Das edle Impressum -->
+                        <div class="lg:col-span-5 flex flex-col justify-start lg:pl-4">
+                            <h3 class="text-xl font-bold text-gray-900 mb-6">Impressum</h3>
+                            
+                            <div class="space-y-6 text-[15px] text-gray-600 leading-relaxed">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <strong class="text-gray-900 block mb-1">Bento Software UG (haftungsbeschränkt)</strong>
+                                        Hessestr. 12<br>32049 Herford
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="w-16 text-gray-500">Telefon:</span>
+                                            <a href="tel:+4952213889774" class="hover:text-black transition-colors">+49 (0)5221 / 388 977 4</a>
+                                        </div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="w-16 text-gray-500">Fax:</span>
+                                            <span>+49 (0)5221 / 388 977 5</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-16 text-gray-500">Email:</span>
+                                            <a href="mailto:kontakt@bentosoftware.com" class="text-blue-600 hover:text-blue-800 transition-colors font-medium break-all">kontakt@bentosoftware.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4 pt-2">
+                                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                    <div class="text-sm">
+                                        <strong class="text-gray-900">Geschäftsführer:</strong> Marcus Dürksen, Alexander Gebel<br>
+                                        <strong class="text-gray-900 mt-1 block">Registereintrag:</strong> Amtsgericht Bad Oeynhausen, HRB 13124<br>
+                                        <strong class="text-gray-900 mt-1 block">USt.-IdNr.:</strong> DE284159016
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- KARRIERE MODAL --- -->
+        <div id="career-modal" class="fixed inset-0 z-[100] modal-enter flex items-center justify-center px-4 sm:px-6">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeCareerModal()"></div>
+            
+            <div class="modal-content-scale relative w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+                <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Karriere</h2>
+                    <button onclick="closeCareerModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div class="p-8 overflow-y-auto custom-scrollbar text-center">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">🚀</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Karriere bei Bento Software</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed mb-8 max-w-md mx-auto">
+                        <strong>Bento Software</strong> ist ein junges Unternehmen in der Softwarebranche.
+                    </p>
+                    
+                    <div class="bg-gray-50 border border-gray-100 rounded-2xl p-6 md:p-8">
+                        <p class="font-semibold text-gray-900 mb-3 flex items-center justify-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 block"></span>
+                            Aktuell haben wir keine offenen Stellen.
+                        </p>
+                        <p class="text-[15px] text-gray-600 leading-relaxed">
+                            Initiativbewerbungen können Sie jederzeit an uns schicken. Ihre Bewerbung schicken Sie bitte an 
+                            <a href="mailto:karriere@bentosoftware.com" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">karriere@bentosoftware.com</a>.<br>
+                            <span class="block mt-2 opacity-80 text-sm">Auf ein Anschreiben können Sie dabei verzichten.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End of Strict Mobile Wrapper -->
+
+    <script>
+        // --- Datenschutz Modal Logik ---
+        const privacyModal = document.getElementById('privacy-modal');
+        
+        function openPrivacyModal() {
+            privacyModal.classList.add('modal-enter-active');
+            document.body.style.overflow = 'hidden'; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.pushState(null, null, '#datenschutz');
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        function closePrivacyModal() {
+            privacyModal.classList.remove('modal-enter-active');
+            document.body.style.overflow = ''; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.replaceState(null, null, window.location.pathname);
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        // --- Kontakt Modal Logik ---
+        const contactModal = document.getElementById('contact-modal');
+        
+        function openContactModal() {
+            contactModal.classList.add('modal-enter-active');
+            document.body.style.overflow = 'hidden'; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.pushState(null, null, '#kontakt-modal');
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        function closeContactModal() {
+            contactModal.classList.remove('modal-enter-active');
+            document.body.style.overflow = ''; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.replaceState(null, null, window.location.pathname);
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        // --- Karriere Modal Logik ---
+        const careerModal = document.getElementById('career-modal');
+        
+        function openCareerModal() {
+            careerModal.classList.add('modal-enter-active');
+            document.body.style.overflow = 'hidden'; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.pushState(null, null, '#karriere');
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        function closeCareerModal() {
+            careerModal.classList.remove('modal-enter-active');
+            document.body.style.overflow = ''; 
+            try {
+                if (window.location.protocol !== 'file:' && window.location.hostname !== '') {
+                    history.replaceState(null, null, window.location.pathname);
+                }
+            } catch (e) {
+                console.warn('URL-Änderung in lokaler Umgebung nicht möglich.');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#datenschutz') {
+                setTimeout(() => openPrivacyModal(), 400);
+            } else if (window.location.hash === '#kontakt-modal') {
+                setTimeout(() => openContactModal(), 400);
+            } else if (window.location.hash === '#karriere') {
+                setTimeout(() => openCareerModal(), 400);
+            }
+        });
+
+        // --- Ultra Smooth Parallax Engine ---
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetMouseX = 0;
+        let targetMouseY = 0;
+        let scrollY = window.scrollY;
+
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = (e.clientX / window.innerWidth) - 0.5;
+            targetMouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+        });
+
+        const heroContent = document.getElementById('hero-content');
+        const auroraContainer = document.getElementById('aurora-bg');
+        const floatingCards = document.querySelectorAll('.glass-floating-card');
+        const brandLogo = document.getElementById('brand-logo');
+
+        function animateParallax() {
+            mouseX += (targetMouseX - mouseX) * 0.08;
+            mouseY += (targetMouseY - mouseY) * 0.08;
+
+            if (brandLogo) {
+                brandLogo.style.transform = `translate3d(${mouseX * 20}px, ${mouseY * 10}px, 0) rotateY(${mouseX * 15}deg)`;
+            }
+
+            if (heroContent) {
+                const scrollOffset = scrollY * 0.55; 
+                heroContent.style.transform = `translate3d(${mouseX * 30}px, calc(${mouseY * 30}px + ${scrollOffset}px), 0)`;
+                heroContent.style.opacity = Math.max(1 - (scrollY / 450), 0);
+            }
+
+            if (auroraContainer) {
+                auroraContainer.style.transform = `translate3d(${mouseX * -250}px, calc(${mouseY * -250}px + ${scrollY * 0.1}px), 0) scale(1.15)`;
+            }
+
+            // --- 3D Kisten-Aufklapp-Effekt ---
+            const scrollBox = document.getElementById('scroll-box');
+            const boxReflection = document.getElementById('box-reflection');
+            
+            if (scrollBox) {
+                let maxScroll = window.innerHeight * 0.6;
+                let progress = Math.max(0, Math.min(scrollY / maxScroll, 1));
+                
+                let easeProgress = progress * (2 - progress); 
+                
+                let angle = 55 - (easeProgress * 55); 
+                let scaleVal = 0.85 + (easeProgress * 0.15);
+                let yOffset = -40 * easeProgress;
+                
+                scrollBox.style.transform = `rotateX(${angle}deg) scale(${scaleVal}) translateY(${yOffset}px)`;
+                
+                if (boxReflection) {
+                    boxReflection.style.opacity = 1 - easeProgress; 
+                }
+            }
+
+            floatingCards.forEach(card => {
+                const speed = parseFloat(card.getAttribute('data-speed'));
+                const rotation = parseFloat(card.getAttribute('data-rotation'));
+                
+                const moveX = mouseX * speed * 400;
+                const moveY = mouseY * speed * 400;
+                const moveScroll = scrollY * speed;
+                
+                card.style.transform = `translate3d(${moveX}px, calc(${moveY}px - ${moveScroll}px), 0) rotate(${rotation + (mouseX * 10)}deg)`;
+            });
+
+            requestAnimationFrame(animateParallax);
+        }
+        
+        animateParallax();
+
+        // Smooth Staggered Reveal
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 100); 
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Advanced 3D Tilt & Soft Glow Effect for Cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+
+                if (window.innerWidth > 768) { 
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -6; 
+                    const rotateY = ((x - centerX) / centerX) * 6;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // Magnetic Button Effect
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', function(e) {
+                const position = btn.getBoundingClientRect();
+                const x = e.clientX - position.left - position.width / 2;
+                const y = e.clientY - position.top - position.height / 2;
+                btn.style.transform = `translate(${x * 0.4}px, ${y * 0.6}px)`;
+            });
+            btn.addEventListener('mouseout', function() {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+    </script>
+</body>
+</html>
