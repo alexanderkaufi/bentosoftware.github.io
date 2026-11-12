@@ -2,7 +2,7 @@
 <html lang="de" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bento Software | Software, die ihr Ziel erreicht.</title>
     <!-- Neues Favicon für den Browser-Tab -->
     <link rel="icon" href="bentosoftware-icon.png" type="image/png">
@@ -109,6 +109,19 @@
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Navigation und Produktkarten auf schmalen Bildschirmen */
+        .mobile-menu { display: none; }
+        @media (max-width: 767px) {
+            .mobile-menu { display: block; }
+            .mobile-menu summary { cursor: pointer; list-style: none; padding: 0.5rem; border-radius: 0.5rem; font-weight: 600; }
+            .mobile-menu summary::-webkit-details-marker { display: none; }
+            .mobile-menu summary:focus-visible, .mobile-menu a:focus-visible, .mobile-menu button:focus-visible { outline: 2px solid #0071e3; outline-offset: 3px; }
+            .mobile-menu-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 0.75rem 1.5rem 1rem; background: #fff; border-bottom: 1px solid #e5e7eb; box-shadow: 0 12px 20px rgba(0,0,0,.08); }
+            .mobile-menu-panel a, .mobile-menu-panel button { display: block; width: 100%; padding: 0.75rem 0; text-align: left; font-weight: 600; color: #374151; }
+            .bento-card-inner { padding: 1.5rem; }
+            .bento-card h3 { font-size: 1.5rem; line-height: 1.2; overflow-wrap: break-word; hyphens: auto; }
         }
 
         /* Hero Content Styles */
@@ -311,6 +324,15 @@
                     <!-- Button öffnet Modal statt Scrollen -->
                     <button type="button" onclick="openContactModal()" class="hover:text-black transition-colors cursor-pointer">Kontakt</button>
                 </div>
+                <details class="mobile-menu">
+                    <summary aria-label="Navigation öffnen oder schließen">Menü</summary>
+                    <div class="mobile-menu-panel" aria-label="Mobile Navigation">
+                        <a href="#dienstleistungen" onclick="this.closest('details').open = false">Dienstleistungen</a>
+                        <a href="#produkte" onclick="this.closest('details').open = false">Produkte</a>
+                        <button type="button" onclick="this.closest('details').open = false; openCareerModal()">Karriere</button>
+                        <button type="button" onclick="this.closest('details').open = false; openContactModal()">Kontakt</button>
+                    </div>
+                </details>
             </div>
         </nav>
 
@@ -413,7 +435,6 @@
                                     <img src="Gartenplaner.jpg" alt="Gartenplaner App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                                     <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-0 p-2 text-center">
                                         <span class="text-3xl mb-1">🥕</span>
-                                        <span class="text-[8px] opacity-60 uppercase font-mono">Gartenplaner.jpg</span>
                                     </div>
                                 </div>
                             </div>
@@ -424,12 +445,11 @@
                 <!-- 2. HEILKRÄUTER INFO -->
                 <article class="bento-card tile md:col-span-12 lg:col-span-7 reveal" data-tilt>
                     <div class="bento-card-inner">
-                        <div class="flex items-center gap-5 mb-8">
+                        <div class="flex flex-wrap items-center gap-5 mb-8">
                             <div class="icon-box bg-white overflow-hidden border border-gray-100 p-0 shadow-sm relative">
-                                <img src="Heilkra%CC%88uter.jpg" alt="Heilkräuter App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
+                                <img src="heilkraeuter.jpg" alt="Heilkräuter App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                                 <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
                                     <span class="text-xl mb-1">🌿</span>
-                                    <span class="text-[6px] opacity-50 uppercase font-mono break-all">Heilkräuter.jpg</span>
                                 </div>
                             </div>
                             <h3 class="text-3xl font-bold tracking-tight text-gray-900">Heilkräuter Info</h3>
@@ -458,7 +478,6 @@
                                 <img src="gymmix.jpg" alt="Gymmix App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                                 <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
                                     <span class="text-xl mb-1">💪</span>
-                                    <span class="text-[6px] opacity-50 uppercase font-mono">gymmix.jpg</span>
                                 </div>
                             </div>
                             <div>
@@ -495,7 +514,6 @@
                             <img src="Tilgungsrechner.jpg" alt="Tilgungsrechner App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                             <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
                                 <span class="text-xl mb-1">📊</span>
-                                <span class="text-[5px] opacity-50 uppercase font-mono break-all leading-tight">Tilgungsrechner.jpg</span>
                             </div>
                         </div>
                         <h3 class="text-3xl font-bold mb-4 tracking-tight text-gray-900">Kredit- & Tilgungsrechner</h3>
@@ -529,7 +547,6 @@
                             <img src="Rezept.jpg" alt="Rezepte-Finder App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                             <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-1 text-center">
                                 <span class="text-xl mb-1">🍳</span>
-                                <span class="text-[5px] opacity-50 uppercase font-mono break-all leading-tight">Rezept.jpg</span>
                             </div>
                         </div>
                         <h3 class="text-3xl font-bold mb-3 tracking-tight text-gray-900">Rezepte-Finder</h3>
@@ -553,7 +570,6 @@
                                 <img src="carddisplay.jpg" alt="Carddisplay App Icon" class="w-full h-full object-cover relative z-10" onerror="this.style.opacity='0'" />
                                 <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-black z-0 p-2 text-center">
                                     <span class="text-3xl mb-1">💳</span>
-                                    <span class="text-[8px] opacity-50 uppercase font-mono break-all leading-tight">carddisplay.jpg</span>
                                 </div>
                             </div>
                             <div class="flex-1 text-center md:text-left">
